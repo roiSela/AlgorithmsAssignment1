@@ -11,22 +11,26 @@ struct Node {
 template <typename T> class List {
 private:
     Node<T>* head;
+    int size;
+
 public:
     List() {
         head = nullptr;
         head->prev = nullptr;
         head->next = nullptr;
+        size = 0;
     }
 
     //val will be the new head of the list
     void push(T val) {
         Node<T>* newLinkedListMember = new Node<T>();
-        newLinkedListMember ->data = val;
+        newLinkedListMember->data = val;
         newLinkedListMember->next = head;
 
         head->prev = newLinkedListMember;
         head = newLinkedListMember;
         head->prev = nullptr;
+        size++;
     }
 
     //this function delets *all* appearences of val on the list
@@ -40,6 +44,7 @@ public:
                 currentListMemberToCheck->prev->next = currentListMemberToCheck->next;
                 currentListMemberToCheck->next->prev = currentListMemberToCheck->prev;
                 delete[] currentListMemberToCheck;
+                size--;
             }
             else
             {
@@ -49,7 +54,7 @@ public:
 
     }
 
-    //return true if val is in the list and flase if not
+    //return true if val is in the list and false if not
     bool search(T val) {
         Node<T>* currentListMemberToCheck = head;
         while (currentListMemberToCheck!=nullptr)
@@ -99,6 +104,7 @@ public:
         head = nullptr;
         head->prev = nullptr;
         head->next = nullptr;
+        size = 0;
     }
 };
 
