@@ -9,8 +9,18 @@ bool Edge::operator==(const Edge &edge) const {
     return value == edge.value;
 }
 
+bool Edge::operator==(const int &val) const {
+    return value==val;
+}
+
 bool Edge::operator!=(const Edge &edge) const {
     return !(edge == *this);
+}
+
+Edge & Edge::operator=(Edge edge) {
+    this->value = edge.value;
+    this->weight = edge.weight;
+    return *this;
 }
 
 graph::graph()
@@ -42,11 +52,12 @@ List<Edge> graph::GetAdjList(int u)
 
 void graph::AddEdge(int u, int v, int c)
 {
-
+    adjacencyList[u].neighbors.push(Edge(v,c));
 }
 
 void graph::RemoveEdge(int u, int v)
 {
+    adjacencyList[u].neighbors.deleteListMember(v);
 }
 
 void graph::ReadGraph()
@@ -59,7 +70,10 @@ void graph::PrintGraph()
 
 int graph::IsEmpty()
 {
-	return 0;
+	if(adjacencyList== nullptr || NumOfVerticesInAdjacencyList==0)
+	    return 1;
+	else
+	    return 0;
 }
 
 int graph::AddEdge(int i, int j)

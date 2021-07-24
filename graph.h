@@ -14,7 +14,9 @@ public:
     Edge(int value);
 
     bool operator==(const Edge &edge) const;
+    bool operator==(const int &val) const;
     bool operator!=(const Edge &edge) const;
+    Edge & operator=(Edge edge);
 
 };
 

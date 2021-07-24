@@ -6,6 +6,8 @@ struct Node {
     T data;
     Node* prev;
     Node* next;
+
+    Node(T data) : data(data) {}
 };
 
 template <typename T> class List {
@@ -21,7 +23,7 @@ public:
 
     //val will be the new head of the list
     void push(T val) {
-        auto newLinkedListMember = new Node<T>();
+        auto newLinkedListMember = new Node<T>(val);
         newLinkedListMember->data = val;
         newLinkedListMember->next = head;
         newLinkedListMember->prev = nullptr;
@@ -44,8 +46,12 @@ public:
         {
             if (currentListMemberToCheck->data == val)
             {
-                currentListMemberToCheck->prev->next = currentListMemberToCheck->next;
-                currentListMemberToCheck->next->prev = currentListMemberToCheck->prev;
+                if(currentListMemberToCheck->next!= nullptr){
+                    currentListMemberToCheck->next->prev = currentListMemberToCheck->prev;
+                }
+                if(currentListMemberToCheck->prev!= nullptr){
+                    currentListMemberToCheck->prev->next = currentListMemberToCheck->next;
+                }
                 delete[] currentListMemberToCheck;
                 size--;
             }
