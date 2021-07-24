@@ -16,24 +16,27 @@ private:
 public:
     List() {
         head = nullptr;
-        head->prev = nullptr;
-        head->next = nullptr;
         size = 0;
     }
 
     //val will be the new head of the list
     void push(T val) {
-        Node<T>* newLinkedListMember = new Node<T>();
+        auto newLinkedListMember = new Node<T>();
         newLinkedListMember->data = val;
         newLinkedListMember->next = head;
+        newLinkedListMember->prev = nullptr;
 
-        head->prev = newLinkedListMember;
-        head = newLinkedListMember;
-        head->prev = nullptr;
+        if(head==nullptr){
+            head=newLinkedListMember;
+        }
+        else{
+            head->prev=newLinkedListMember;
+            head=newLinkedListMember;
+        }
         size++;
     }
 
-    //this function delets *all* appearences of val on the list
+    //this function deletes *all* appearances of val on the list
     void deleteListMember(T val)
     {
         Node<T>* currentListMemberToCheck = head;

@@ -1,5 +1,18 @@
 #include "graph.h"
 
+
+Edge::Edge(int value, int weight) : value(value), weight(weight) {}
+
+Edge::Edge(int value) : value(value) {weight=1;}
+
+bool Edge::operator==(const Edge &edge) const {
+    return value == edge.value;
+}
+
+bool Edge::operator!=(const Edge &edge) const {
+    return !(edge == *this);
+}
+
 graph::graph()
 {
 	adjacencyList = nullptr;
@@ -8,25 +21,28 @@ graph::graph()
 
 graph::~graph()
 {
-
+    //TODO
 }
 
 void graph::MakeEmptyGraph(int n)
 {
+    adjacencyList = new Vertex[n];
+    NumOfVerticesInAdjacencyList = n;
 }
 
 bool graph::IsAdjacent(int u, int v)
 {
-	return false;
+    return adjacencyList[u].neighbors.search(v);
 }
 
-List<int> graph::GetAdjList(int u)
+List<Edge> graph::GetAdjList(int u)
 {
-	return List<int>();
+	return adjacencyList[u].neighbors;
 }
 
 void graph::AddEdge(int u, int v, int c)
 {
+
 }
 
 void graph::RemoveEdge(int u, int v)
