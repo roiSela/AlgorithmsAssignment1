@@ -5,13 +5,27 @@ using namespace std;
 
 
 
+class Edge{
+    int value;
+    int weight;
+
+public:
+    Edge(int value, int weight);
+    Edge(int value);
+
+    bool operator==(const Edge &edge) const;
+    bool operator==(const int &val) const;
+    bool operator!=(const Edge &edge) const;
+    Edge & operator=(Edge edge);
+
+};
+
 class Vertex
 {
 public:
 	int value;
-	List<int> neighbors;
+	List<Edge> neighbors;
 };
-
 
 
 class graph
@@ -32,7 +46,7 @@ public:
 
 
 	//returns a linked list of the neighbors of u
-	List<int> GetAdjList(int u);
+    List<Edge> GetAdjList(int u);
 
 	//adding the edge (u,v) with weight of c
 	void AddEdge(int u, int v, int c);

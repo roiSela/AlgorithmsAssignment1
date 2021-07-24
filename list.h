@@ -6,6 +6,8 @@ struct Node {
     T data;
     Node* prev;
     Node* next;
+
+    Node(T data) : data(data) {}
 };
 
 template <typename T> class List {
@@ -16,24 +18,27 @@ private:
 public:
     List() {
         head = nullptr;
-        head->prev = nullptr;
-        head->next = nullptr;
         size = 0;
     }
 
     //val will be the new head of the list
     void push(T val) {
-        Node<T>* newLinkedListMember = new Node<T>();
+        auto newLinkedListMember = new Node<T>(val);
         newLinkedListMember->data = val;
         newLinkedListMember->next = head;
+        newLinkedListMember->prev = nullptr;
 
-        head->prev = newLinkedListMember;
-        head = newLinkedListMember;
-        head->prev = nullptr;
+        if(head==nullptr){
+            head=newLinkedListMember;
+        }
+        else{
+            head->prev=newLinkedListMember;
+            head=newLinkedListMember;
+        }
         size++;
     }
 
-    //this function delets *all* appearences of val on the list
+    //this function deletes *all* appearances of val on the list
     void deleteListMember(T val)
     {
         Node<T>* currentListMemberToCheck = head;
@@ -41,8 +46,12 @@ public:
         {
             if (currentListMemberToCheck->data == val)
             {
-                currentListMemberToCheck->prev->next = currentListMemberToCheck->next;
-                currentListMemberToCheck->next->prev = currentListMemberToCheck->prev;
+                if(currentListMemberToCheck->next!= nullptr){
+                    currentListMemberToCheck->next->prev = currentListMemberToCheck->prev;
+                }
+                if(currentListMemberToCheck->prev!= nullptr){
+                    currentListMemberToCheck->prev->next = currentListMemberToCheck->next;
+                }
                 delete[] currentListMemberToCheck;
                 size--;
             }
