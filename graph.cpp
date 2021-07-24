@@ -42,22 +42,30 @@ void graph::MakeEmptyGraph(int n)
 
 bool graph::IsAdjacent(int u, int v)
 {
-    return adjacencyList[u].neighbors.search(v);
+    if(u>NumOfVerticesInAdjacencyList || u<1 || v>NumOfVerticesInAdjacencyList || v<1 || IsEmpty())
+        return false;
+    else
+        return adjacencyList[u-1].neighbors.search(v);
 }
 
 List<Edge> graph::GetAdjList(int u)
 {
-	return adjacencyList[u].neighbors;
+	return adjacencyList[u-1].neighbors;
 }
 
-void graph::AddEdge(int u, int v, int c)
+int graph::AddEdge(int u, int v)
 {
-    adjacencyList[u].neighbors.push(Edge(v,c));
+    if(u>NumOfVerticesInAdjacencyList || u<1 || v>NumOfVerticesInAdjacencyList || v<1)
+        return 0;
+    else {
+        adjacencyList[u - 1].neighbors.push(Edge(v));
+        return 1;
+    }
 }
 
 void graph::RemoveEdge(int u, int v)
 {
-    adjacencyList[u].neighbors.deleteListMember(v);
+    adjacencyList[u-1].neighbors.deleteListMember(v);
 }
 
 void graph::ReadGraph()
@@ -74,14 +82,4 @@ int graph::IsEmpty()
 	    return 1;
 	else
 	    return 0;
-}
-
-int graph::AddEdge(int i, int j)
-{
-	return 0;
-}
-
-List<int> graph::Adj(int i)
-{
-	return List<int>();
 }

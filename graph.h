@@ -17,6 +17,7 @@ public:
     bool operator==(const int &val) const;
     bool operator!=(const Edge &edge) const;
     Edge & operator=(Edge edge);
+    operator int(){return value;}
 
 };
 
@@ -49,7 +50,7 @@ public:
     List<Edge> GetAdjList(int u);
 
 	//adding the edge (u,v) with weight of c
-	void AddEdge(int u, int v, int c);
+    int AddEdge(int u, int v);
 
 
 	//Removing the edge (u,v) from the graph
@@ -63,20 +64,7 @@ public:
 	//Prints graph
 	void PrintGraph();
 
-
-
 	//return 1 if the graph is empty 0 else
 	int IsEmpty();
-
-
-	//add the edge (i,j), return 1 if we succed in adding it,0 if error
-	int AddEdge(int i, int j);
-
-
-	//returns a linked list of the neighbors of i
-	List<int> Adj(int i);
-
-
-
 };
 
