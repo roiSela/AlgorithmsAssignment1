@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+using namespace std;
 
 template <typename T>
 struct Node {
@@ -28,17 +29,52 @@ public:
         newLinkedListMember->next = head;
         newLinkedListMember->prev = nullptr;
 
-        if(head==nullptr){
-            head=newLinkedListMember;
+        if (head == nullptr) {
+            head = newLinkedListMember;
         }
-        else{
-            head->prev=newLinkedListMember;
-            head=newLinkedListMember;
+        else {
+            head->prev = newLinkedListMember;
+            head = newLinkedListMember;
         }
         size++;
     }
 
-    //this function deletes *all* appearances of val on the list
+    //delets the tale of the list and return it (this function presums that the list it not empty,so we need to check that first before
+    //calling it)
+    T pop()
+    {
+        T toReturn; //we need to return current tail
+        Node<T>* ToDelete = head; //we need to delete current tail
+
+        while (ToDelete->next != nullptr)
+        {
+            ToDelete = ToDelete->next;
+        }
+        //now toDelete is our current tail.
+        toReturn = ToDelete->data;
+
+        //lets divide into cases
+
+        if (ToDelete == head)
+        {
+            head->prev = nullptr;
+            head->next = nullptr;
+            head = nullptr;
+            delete[] ToDelete;
+        }
+        else //we have at least two elements
+        {
+            ToDelete->prev->next = nullptr;
+            delete[] ToDelete;
+        }
+    
+
+        return toReturn;
+
+    }
+
+
+    //this function deletes one appearance of val from the list
     void deleteListMember(T val)
     {
         Node<T>* currentListMemberToCheck = head;
@@ -46,14 +82,21 @@ public:
         {
             if (currentListMemberToCheck->data == val)
             {
-                if(currentListMemberToCheck->next!= nullptr){
+                if (currentListMemberToCheck->next != nullptr) {
                     currentListMemberToCheck->next->prev = currentListMemberToCheck->prev;
                 }
-                if(currentListMemberToCheck->prev!= nullptr){
+                if (currentListMemberToCheck->prev != nullptr) {
                     currentListMemberToCheck->prev->next = currentListMemberToCheck->next;
+                }
+                if (currentListMemberToCheck == head)
+                {               
+                    head->prev = nullptr;
+                    head->next = nullptr;
+                    head = nullptr;
                 }
                 delete[] currentListMemberToCheck;
                 size--;
+                break; //we only delete one qppearance of val
             }
             else
             {
@@ -66,7 +109,7 @@ public:
     //return true if val is in the list and false if not
     bool search(T val) {
         Node<T>* currentListMemberToCheck = head;
-        while (currentListMemberToCheck!=nullptr)
+        while (currentListMemberToCheck != nullptr)
         {
             if (currentListMemberToCheck->data == val)
             {
@@ -79,7 +122,7 @@ public:
         }
 
         return false;
-        
+
     }
 
 
@@ -103,18 +146,24 @@ public:
     {
         Node<T>* currentListMemberToDelete = head;
         Node<T>* temp;
-        while (currentListMemberToDelete!=nullptr)
+        while (currentListMemberToDelete != nullptr)
         {
             temp = currentListMemberToDelete->next;
             delete[] currentListMemberToDelete;
             currentListMemberToDelete = temp;
-        }
-
-        head = nullptr;
-        head->prev = nullptr;
-        head->next = nullptr;
+        }      
         size = 0;
     }
+
+    Node<T>* getHeadOfList()
+    {
+        
+        return  head;
+
+    }
+    
+
+    
 };
 
 //int main() {
