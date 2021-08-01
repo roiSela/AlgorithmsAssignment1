@@ -89,10 +89,10 @@ public:
                     currentListMemberToCheck->prev->next = currentListMemberToCheck->next;
                 }
                 if (currentListMemberToCheck == head)
-                {               
-                    head->prev = nullptr;
-                    head->next = nullptr;
-                    head = nullptr;
+                {          
+                    currentListMemberToCheck->prev = nullptr;
+                    head = head->next;
+                 
                 }
                 delete[] currentListMemberToCheck;
                 size--;

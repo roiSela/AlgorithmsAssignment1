@@ -209,16 +209,47 @@ graph graph::findShortestPathsGraph()
 	// to the condition d[v] = d[u] + 1
 	//to the graph we get lets call Gs
 
+
 	for (int i = 0; i < sizeOfArray; i++)
 	{
-		for	(int j = 0; j < sizeOfArray; j++)
+		List<Edge> AdjOfI = this->GetAdjList(i+1);
+		Node<Edge>* currentAdj = AdjOfI.getHeadOfList();
+		while (currentAdj)
 		{
-			if (d[j] != d[i] + 1)
+			if (d[currentAdj->data - 1] != d[i] + 1)
 			{
-				this->RemoveEdge(i + 1, j + 1);
+				this->RemoveEdge(i + 1, currentAdj->data);
+				AdjOfI = this->GetAdjList(i + 1);
+				currentAdj = AdjOfI.getHeadOfList();
 			}
+			else
+			{
+				currentAdj = currentAdj->next;
+			}
+			
+			
 		}
+		
 	}
+	
+
+	//for (int i = 0; i < sizeOfArray; i++)
+	//{
+
+	//	
+	//	for	(int j = 0; j < sizeOfArray; j++)
+	//	{
+	//		if (i == 83 && j == 909)
+	//		{
+	//			cout << "  "; //debug
+	//		}
+
+	//		if (d[j] != d[i] + 1)
+	//		{
+	//			this->RemoveEdge(i + 1, j + 1);
+	//		}
+	//	}
+	//}
 
 	
 
@@ -227,6 +258,7 @@ graph graph::findShortestPathsGraph()
 	graph GsTranspose;
 	GsTranspose.makeTransposeGraph((*this));
 
+	
 
 	//step 4: preform bfs on GsT and now run in from vertex t
 	//delete every edge that is not eccessible from t 
@@ -265,6 +297,7 @@ graph graph::findShortestPathsGraph()
 	while (QOfGsT.isThisListEmpty() == false)
 	{
 		int u = QOfGsT.pop(); // u <- Q.Dequeu()
+	
 		List<Edge> AdjOfU = GsTranspose.GetAdjList(u);
 		Node<Edge>* currentAdj = AdjOfU.getHeadOfList();
 		while (currentAdj)
@@ -275,6 +308,7 @@ graph graph::findShortestPathsGraph()
 			if (d_OfGsT[currentAdj->data - 1] == infinity)
 			{
 				d_OfGsT[currentAdj->data - 1] = d_OfGsT[u - 1] + 1;
+
 				QOfGsT.push(currentAdj->data);
 			}
 
@@ -283,17 +317,42 @@ graph graph::findShortestPathsGraph()
 
 	}
 
-	//now lets delete every edge that is not eccessible from t
+
+
+	////now lets delete every edge that is not eccessible from t
+	//for (int i = 0; i < sizeOfArray; i++)
+	//{
+	//	for (int j = 0; j < sizeOfArray; j++)
+	//	{
+	//		if (allEdges[i][j] == 0)
+			/*{
+				GsTranspose.RemoveEdge(i + 1, j + 1);
+			}*/
+	//	}
+	//}
+
 	for (int i = 0; i < sizeOfArray; i++)
 	{
-		for (int j = 0; j < sizeOfArray; j++)
+		List<Edge> AdjOfI = GsTranspose.GetAdjList(i + 1);
+		Node<Edge>* currentAdj = AdjOfI.getHeadOfList();
+		while (currentAdj)
 		{
-			if (allEdges[i][j] == 0)
+			if (allEdges[i][currentAdj->data-1] == 0)
 			{
-				GsTranspose.RemoveEdge(i + 1, j + 1);
+				GsTranspose.RemoveEdge(i + 1, currentAdj->data);
+				AdjOfI = GsTranspose.GetAdjList(i + 1);
+				currentAdj = AdjOfI.getHeadOfList();
 			}
+			else
+			{
+				currentAdj = currentAdj->next;
+			}
+
+
 		}
+
 	}
+
 
 
 
